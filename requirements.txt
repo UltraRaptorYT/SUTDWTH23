@@ -1,4 +1,4 @@
 langchain
 fastapi
-pinecone
+pinecone-client==2.2.1
 uvicorn[standard]
