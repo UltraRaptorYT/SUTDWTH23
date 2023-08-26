@@ -1,15 +1,25 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 
 function Footer() {
+  // New navigator object
+  const navigate = useNavigate();
+
+  // Navigate to login page
+  const handleLogin = () => {
+    navigate("/Login");
+  };
+
   return (
     <footer className="mt-auto">
-      <div className="w-full h-[70px] pt-[20px]">
+      <div className="w-screen h-[70px] pt-[20px]">
         <div className="bg-red-500 h-full border-t-4 border-black text-xl relative flex items-center justify-center">
           <div className="flex items-center justify-around gap-12 h-full">
-            <button>
+            <button onClick={handleLogin}>
               <FontAwesomeIcon icon={faUtensils} />
+              <div>Login</div>
             </button>
             <button>
               <FontAwesomeIcon icon={faUtensils} />
