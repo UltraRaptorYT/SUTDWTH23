@@ -1,7 +1,6 @@
 # this is purely for testing purposes of the langchain serving
 from langchain import LLMChain, OpenAI, SerpAPIWrapper
 from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
-import pinecone
 import openai
 import numpy as np
 import os
@@ -258,4 +257,4 @@ async def expire(inputBody: InputModel) -> dict:
 
 
 if __name__ == "__main__":
-	uvicorn.run('app:app', host = '0.0.0.0', port = 7860)
+	uvicorn.run('app:app', host = '0.0.0.0', port = 8080)
