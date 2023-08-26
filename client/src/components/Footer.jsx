@@ -21,7 +21,7 @@ function Footer({ children }) {
   }, []);
 
   return (
-    <footer className="w-screen h-[75px] pt-[20px] mt-auto">
+    <footer className="w-screen h-[75px] pt-[20px] mt-auto bottom-0 fixed">
       <div className="bg-red-500 h-full border-t-4 border-black text-xl relative flex items-center">
         <div className="flex items-center justify-around h-full w-full max-w-[400px] mx-auto p-2">
           <button

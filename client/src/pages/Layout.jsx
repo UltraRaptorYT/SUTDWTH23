@@ -10,7 +10,7 @@ const Layout = () => {
       <Header
         headerHeight={headerHeight}
       />
-      <div className={`p-2 grow`} style={{ marginTop: headerHeight + "px" }}>
+      <div className={`p-4 grow`} style={{ marginTop: headerHeight + "px" }}>
         <Outlet />
       </div>
       <Footer>

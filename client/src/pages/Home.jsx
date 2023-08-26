@@ -32,17 +32,17 @@ function Home() {
   const headerHeight = 75;
   const [data, setData] = useState(null);
 
-  // useEffect(() => {
-  //   // // Make a GET request using Axios
-  //   // axios
-  //   //   .post("http://127.0.0.1:8000/generate", { input: "KALEB" })
-  //   //   .then((response) => {
-  //   //     setData(response.data.video);
-  //   //   })
-  //   //   .catch((error) => {
-  //   //     console.error("Error fetching data:", error);
-  //   //   });
-  // }, []); // The empty dependency array ensures this effect runs only once after the initial render
+  useEffect(() => {
+    // Make a GET request using Axios
+    axios
+      .get("http://213.108.196.111:1715/")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []); // The empty dependency array ensures this effect runs only once after the initial render
 
   return (
     <main className="flex flex-col h-[100svh]">
@@ -57,7 +57,7 @@ function Home() {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             videoConstraints={videoConstraints}
-            className="w-full max-w-[400px] mx-auto aspect-[3/4] max-h-[calc(100svh-70px-75px)]"
+            className="w-full max-w-[400px] mx-auto aspect-[3/4] max-h-[calc(100svh-75px-75px)]"
           />
           <img src={imageSrc} />
         </div>
