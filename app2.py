@@ -60,6 +60,7 @@ from starlette.responses import Response
 # App
 app = FastAPI()
 
+
 async def catch_exceptions_middleware(request: Request, call_next):
     try:
         return await call_next(request)
@@ -69,7 +70,7 @@ async def catch_exceptions_middleware(request: Request, call_next):
 
 
 origins = [
-	'https://node-recipe-api.onrender.com/',
+	'https://node-recipe-api.onrender.com',
 ]
 
 middleware = [
