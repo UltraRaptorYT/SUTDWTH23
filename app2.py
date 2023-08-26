@@ -145,16 +145,16 @@ class VideoGenerator:
         results = self.recipe_step_chain(recipe_details = recipe_details)
         return results
 
-    
-# class InputModel(BaseModel):
-#     input: str
+
+class InputModel(BaseModel):
+    input: str
 
 @app.get("/")
 async def root() -> dict:
     return {"message": "Hello World"}
 
 @app.post("/expire")
-async def expire(inputBody) -> dict:
+async def expire(inputBody: InputModel) -> dict:
     input = inputBody.input
     print(input)
     videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
