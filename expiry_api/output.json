@@ -1,0 +1,35 @@
+{
+    "list_of_ingrediants":[
+     {
+        "Name":"milk",
+        "Quantity":6,
+        "Expiration":"2023-08-30" 
+     },
+     {
+        "Name":"apple",
+        "Quantity":3,
+        "Expiration":"YYYY-mm-dd"
+     },
+        {
+            "Name":"milk",
+            "Quantity":2,
+            "Expiration":"YYYY-mm-dd"
+        },
+        {
+            "Name":"bread",
+            "Quantity":1,
+            "Expiration":"YYYY-mm-dd"
+        },
+        {
+            "Name":"butter",
+            "Quantity":1,
+            "Expiration":"YYYY-mm-dd"
+        },
+        {
+            "Name":"cheese",
+            "Quantity":1,
+            "Expiration":"YYYY-mm-dd"
+        }
+    ]
+  }
+  

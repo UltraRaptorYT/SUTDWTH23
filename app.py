@@ -76,7 +76,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL_NAME = "gpt-4-0613"
+MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
 class VideoGenerator:
     
@@ -133,7 +133,35 @@ class VideoGenerator:
             Custom knowledge base:{relevant_documents}\n\nUsing the above information, generate a video script that addresses this user query:\n\n"{query}".\nReturn the generated video script in the style/format: Funny and sarcastic""",
             input_variables= ["relevant_documents", "query"]
         )
+        expire_prompt = PromptTemplate(
+            template="""You are an expiratity date estimator, given this list of inputs of food ingredients, estimate based on today date 2023-08-26 when the food ingredients will expire. Example output:
+            \nmy inventory of ingrediants:{ingredients}""",
+            input_variables= ["ingredients"]
+        )
         self.video_chain2 = create_structured_output_chain(json_schema2, llm, video_prompt, verbose=True)
+
+        json_schema= {
+    "name": "estimate expiration date",
+    "description": "Given ingrediants and their Quantity, estimate the expiration date of each ingrediant",
+    "type": "object",
+    "properties": {
+      "list_of_ingrediants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": { "type": "string" },
+            "Quantity": { "type": "integer" },
+            "Expiration": { "type": "string", "format": "date" }
+          },
+          "required": ["Name", "Quantity", "Expiration"]
+        }
+      }
+    },
+    "required": ["list_of_ingrediants"]
+  }
+  
+        self.expire_chain = expire_chain = create_structured_output_chain(json_schema, llm, expire_prompt, verbose=True)
 
     def print_task_list(self):
         print("\033[95m\033[1m" + "\n*****TASK LIST*****\n" + "\033[0m\033[0m")
@@ -188,6 +216,10 @@ class VideoGenerator:
             print(f'warning, results is not a dict, it is a {type(results)}')
 
         return results
+    
+    def expire(self,ingredients):
+        results = self.expire_chain.run(ingredients = ingredients)
+        return results
 
     
 class InputModel(BaseModel):
@@ -209,3 +241,15 @@ async def generate(inputBody: InputModel) -> dict:
         # "srt": srt_file
     }
 
+@app.post("/expire")
+async def expire(inputBody: InputModel) -> dict:
+    input = inputBody.input
+    print(input)
+    videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
+    output = videoGenerator.expire(input)
+        
+    return {
+        "expire": output,
+        # "audio": blob_uri,
+        # "srt": srt_file
+    }

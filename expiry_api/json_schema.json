@@ -1,0 +1,21 @@
+{
+    "name": "estimate expiration date",
+    "description": "Given ingrediants and their Quantity, estimate the expiration date of each ingrediant",
+    "type": "object",
+    "properties": {
+      "list_of_ingrediants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": { "type": "string" },
+            "Quantity": { "type": "integer" },
+            "Expiration": { "type": "string", "format": "date" }
+          },
+          "required": ["Name", "Quantity", "Expiration"]
+        }
+      }
+    },
+    "required": ["list_of_ingrediants"]
+  }
+  
