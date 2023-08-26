@@ -10,7 +10,7 @@ function Tables({ data }) {
 
   if (data && data.length >= 1) {
     return (
-      <div className="max-w-[300px] mx-auto max-h-[calc(100svh-75px-75px)] overflow-auto">
+      <div className=" mx-auto max-h-[calc(100svh-75px-75px)] overflow-auto">
         <table className="border-separate border-spacing-0 min-w-full">
           <TableHeader data={tableHeader} />
           <tbody>
