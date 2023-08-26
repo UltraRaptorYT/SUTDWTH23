@@ -51,6 +51,7 @@ import requests
 # import json
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
@@ -62,11 +63,11 @@ app = FastAPI()
 
 
 async def catch_exceptions_middleware(request: Request, call_next):
-    try:
-        return await call_next(request)
-    except Exception:
-        # you probably want some kind of logging here
-        return Response("Internal server error", status_code=500)
+	try:
+		return await call_next(request)
+	except Exception:
+		# you probably want some kind of logging here
+		return Response("Internal server error", status_code=500)
 
 
 origins = [
@@ -75,7 +76,7 @@ origins = [
 
 middleware = [
 	Middleware(
-        CORSMiddleware,
+		CORSMiddleware,
 		allow_origins=origins,
 		allow_credentials=True,
 		allow_headers=["*"],
@@ -205,8 +206,11 @@ async def expire(inputBody: dict) -> dict:
 	return output
 
 @app.post("/RecipeSteps")
-async def expire(inputBody) -> list:
-	return inputBody
+async def expire(inputBody: dict) -> list:
+	headers = {'Access-Control-Allow-Headers': 'Content-Type',
+			   'Access-Control-Allow-Origin': '*',
+			   'Access-Control-Allow-Methods': '*'}
+	return JSONResponse(content = inputBody, headers = headers)
 	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	print(input)
