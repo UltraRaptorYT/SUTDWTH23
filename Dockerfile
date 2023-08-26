@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 EXPOSE 8080
 
 WORKDIR /server
-COPY ./app.py /server/app.py
+COPY ./app2.py /server/app.py
 
 COPY ./requirements.txt /server/requirements.txt
 
