@@ -61,6 +61,14 @@ from starlette.responses import Response
 # App
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Authorization", "Content-Type"],
+    max_age=86400,
+)
+
 # ALLOWED_ORIGINS = ['*'],
 # ALLOWED_METHODS = '*',
 # ALLOWED_HEADERS = '*'
