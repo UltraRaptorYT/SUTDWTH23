@@ -154,8 +154,8 @@ async def root() -> dict:
     return {"message": "Hello World"}
 
 @app.post("/expire")
-async def expire(inputBody: InputModel) -> dict:
-    input = inputBody.input
+async def expire(inputBody: dict) -> dict:
+    input = inputBody.get('input')
     print(input)
     videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
     output = videoGenerator.expire(input)
@@ -185,8 +185,8 @@ async def expire(inputBody: InputModel) -> dict:
     return output
 
 @app.post("/RecipeSteps")
-async def expire(inputBody: InputModel) -> list:
-    input = inputBody.input
+async def expire(inputBody: dict) -> list:
+    input = inputBody.get('input')
     print(input)
     videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
     # Example input
