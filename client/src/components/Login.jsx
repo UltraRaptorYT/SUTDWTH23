@@ -3,6 +3,16 @@ import DefaultImage from "../images/default.png";
 
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
+
+console.log();
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_KEY
+);
+
 const Login = () => {
   // useState Logic
   const navigate = useNavigate();
@@ -24,22 +34,44 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Store as a JSON Object
-    // const formData = {
-    //   name: name,
-    //   email: email,
-    // };
+    var { data, error } = await supabase
+      .from("user")
+      .select()
+      .eq("name", name)
+      .eq("email", email);
+
+    if (data.length >= 1) {
+      console.log("hi");
+    } else {
+      // Store as a JSON Object
+      const formData = {
+        name: name,
+        email: email,
+      };
+
+      var { data, error } = await supabase
+        .from("user")
+        .insert([formData])
+        .select();
+
+      if (error) {
+        console.log(error);
+        alert("Error");
+      }
+      console.log(data);
+    }
 
     await clearAndRedirect();
 
     // Storing values in local storage
-    localStorage.setItem("Name", name);
-    localStorage.setItem("Email", email);
+    localStorage.setItem("userid", data[0].id);
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
   };
 
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-[100svh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="flex justify-center">
             <img className="w-1/2" src={DefaultImage} alt="default" />
@@ -49,8 +81,8 @@ const Login = () => {
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleSubmit} method="POST">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form className="space-y-8" onSubmit={handleSubmit} method="POST">
             <div>
               <label
                 htmlFor="email"
@@ -62,7 +94,7 @@ const Login = () => {
                 <input
                   id="name"
                   name="name"
-                  type="name"
+                  type="text"
                   autoComplete="name"
                   placeholder="Enter your name"
                   onChange={(e) => setName(e.target.value)}
@@ -106,16 +138,6 @@ const Login = () => {
               </button>
             </div>
           </form>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not signed in?{" "}
-            <a
-              href="#"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >
-              Sign up with us now
-            </a>
-          </p>
         </div>
       </div>
     </>

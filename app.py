@@ -76,6 +76,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import uvicorn
+
+port = os.getenv("APP_PORT", "8000")
+uvicorn.run(app, host="127.0.0.1", port=int(port))
+
 MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
 class VideoGenerator:
@@ -253,3 +258,4 @@ async def expire(inputBody: InputModel) -> dict:
         # "audio": blob_uri,
         # "srt": srt_file
     }
+
