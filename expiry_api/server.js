@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 
 let app = express();
 app.use(express.json())
-app.use(cors())
+app.use(cors("*"))
 app.use(express.static(__dirname + "../frontend"))
 
 const getExpiryScore = (reqIng , reciIng) => {
