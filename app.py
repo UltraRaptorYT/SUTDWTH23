@@ -196,10 +196,10 @@ class InputModel(BaseModel):
 
 
 @app.post("/generate")
-def generate(inputBody: InputModel) -> dict:
+async def generate(inputBody: InputModel) -> dict:
     input = inputBody.input
     print(input)
-    output = "test"
+    output = input
     # videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
     # output = videoGenerator.generate(input)
         

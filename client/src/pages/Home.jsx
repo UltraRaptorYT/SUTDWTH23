@@ -7,7 +7,7 @@ function Home() {
   useEffect(() => {
     // Make a GET request using Axios
     axios
-      .post("http://127.0.0.1:8000/generate", { input: "test" })
+      .post("http://127.0.0.1:8000/generate", { input: "KALEB" })
       .then((response) => {
         setData(response.data.video);
       })
