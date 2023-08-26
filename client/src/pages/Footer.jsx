@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUtensils,
   faCamera,
-  faBagShopping,
+  faBoxesStacked,
   faUser,
+  faStore,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Footer() {
+function Footer({ children }) {
   // New navigator object
   const navigate = useNavigate();
 
@@ -26,21 +27,18 @@ function Footer() {
           <button className="aspect-square w-[50px]">
             <FontAwesomeIcon icon={faUtensils} />
           </button>
-          <button className="aspect-square w-[50px]">
-            <FontAwesomeIcon icon={faBagShopping} />
+          <button
+            className="aspect-square w-[50px]"
+            onClick={() => {
+              navigate("/inventory");
+            }}
+          >
+            <FontAwesomeIcon icon={faBoxesStacked} />
           </button>
-          <div className="self-start relative w-[65px] -translate-y-1/2">
-            <button
-              onClick={() => {
-                navigate("/");
-              }}
-              className="w-full aspect-square flex bg-blue-500 rounded-full p-2 border-4 border-black items-center justify-center"
-            >
-              <FontAwesomeIcon icon={faCamera} />
-            </button>
-          </div>
+          {children}
+          
           <button className="aspect-square w-[50px]">
-            <FontAwesomeIcon icon={faUtensils} />
+            <FontAwesomeIcon icon={faStore} />
           </button>
           <button
             className="aspect-square w-[50px]"

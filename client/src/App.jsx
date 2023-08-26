@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Error from "./pages/404";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Inventory from "./pages/Inventory";
 import Layout from "./pages/Layout";
 import Login from "./components/Login";
 import "./App.css";
@@ -14,6 +15,7 @@ function App() {
 
       <Route path="/" element={<Layout />}>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/inventory" element={<Inventory />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
