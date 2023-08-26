@@ -187,7 +187,8 @@ async def expire(inputBody: dict) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody) -> list:
-	logging.info('input:', inputBody)
+	return inputBody
+	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	print(input)
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
