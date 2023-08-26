@@ -2,8 +2,12 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="mt-auto p-2">
-      <div className="text-3xl">This is the Footer page.</div>
+    <footer className="mt-auto">
+      <div className="w-full aspect-[4/1] bg-black">
+        <div className="">
+          <i className="fa-solid fa-utensils text-white"></i>
+        </div>
+      </div>
     </footer>
   );
 }
