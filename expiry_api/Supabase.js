@@ -5,7 +5,8 @@ import { createClient } from '@supabase/supabase-js'
 
 export default class Supabase {
     constructor(){
-        this.client = createClient(process.env.SUPABASE_LINK , process.env.SUPABASE_KEY)
+        this.key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZya25odGZ4Y3B3YnlkYXJjemxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MDAyNjUsImV4cCI6MjAwODM3NjI2NX0.a_BdTMR9eN7Cm0tOjLXYAVeNECYU7ZqbHLtIxZGqmso"
+        this.client = createClient("https://vrknhtfxcpwbydarczll.supabase.co/", this.key)
         this.client.auth.persistSession = false
     }
 
