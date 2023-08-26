@@ -2,15 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUtensils,
-  faCamera,
-  faBoxesStacked,
-  faUser,
-  faStore,
-  faBoxArchive,
-} from "@fortawesome/free-solid-svg-icons";
 import Webcam from "react-webcam";
 import Footer from "../components/Footer";
 import CamButton from "../components/CamButton";
@@ -38,7 +29,7 @@ function Home() {
     console.log(imageSrc);
   }, [webcamRef]);
 
-  const headerHeight = 70;
+  const headerHeight = 75;
   const [data, setData] = useState(null);
 
   // useEffect(() => {
@@ -55,7 +46,7 @@ function Home() {
 
   return (
     <main className="flex flex-col h-[100svh]">
-      <Header className={`h-[${headerHeight}px]`} />
+      <Header headerHeight={headerHeight} />
       <div
         style={{ marginTop: headerHeight + "px" }}
         className="grow flex items-center justify-center"

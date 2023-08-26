@@ -1,12 +1,8 @@
 import React from "react";
-import DefaultImage from "../images/default.png";
 
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
-
-console.log();
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -23,7 +19,7 @@ const Login = () => {
   const clearAndRedirect = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    navigate("/");
+    navigate("/profile");
 
     // Setting the input fields to empty
     setName("");
@@ -40,9 +36,7 @@ const Login = () => {
       .eq("name", name)
       .eq("email", email);
 
-    if (data.length >= 1) {
-      console.log("hi");
-    } else {
+    if (data.length < 1) {
       // Store as a JSON Object
       const formData = {
         name: name,
@@ -58,30 +52,32 @@ const Login = () => {
         console.log(error);
         alert("Error");
       }
-      console.log(data);
     }
 
     await clearAndRedirect();
 
     // Storing values in local storage
     localStorage.setItem("userid", data[0].id);
-    localStorage.setItem("name", name);
-    localStorage.setItem("email", email);
+    // localStorage.setItem("name", name);
+    // localStorage.setItem("email", email);
+    // localStorage.setItem("bucks", data[0].bucks);
   };
 
+  const imgUrl = new URL("/images/mascot.png", import.meta.url).href;
   return (
     <>
       <div className="flex min-h-[100svh] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm gap-2 flex flex-col">
           <div className="flex justify-center">
-            <img className="w-1/2" src={DefaultImage} alt="default" />
+            <img className="w-1/2 rounded-full" src={imgUrl} alt="default" />
           </div>
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h1 className="text-center text-4xl font-bold mt-2">SustainaBite</h1>
+          <h2 className="text-center text-2xl font-bold">
             Login to your account
           </h2>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-xs">
           <form className="space-y-8" onSubmit={handleSubmit} method="POST">
             <div>
               <label
