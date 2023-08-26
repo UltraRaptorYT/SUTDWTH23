@@ -22,7 +22,9 @@
             "Alcohol-Free"
         ],
         "mealType" : "lunch/dinner",
-        "dishType" : "main course"
+        "dishType" : "main course",
+        "totalCO2Emissions": 17681.67059320278,
+        "co2EmissionsClass": "F"
     },
     {
         "label" : "Lemon Mint Granita",
@@ -68,6 +70,8 @@
             "Kosher"
         ],
         "dishType": "drinks",
-        "mealType" : "lunch/dinner"
+        "mealType" : "lunch/dinner",
+        "totalCO2Emissions" : 5448.225243650763,
+        "co2EmissionsClass" : "D"
     }
 ]

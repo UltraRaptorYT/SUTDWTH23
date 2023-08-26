@@ -1,11 +1,19 @@
 import express from "express";
 import cors from "cors";
+import path from "path"
 import Supabase from "./Supabase.js";
 import API from "./Api.js";
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let app = express();
 app.use(express.json())
 app.use(cors())
+app.use(express.static(__dirname + "../frontend"))
 
 const getExpiryScore = (reqIng , reciIng) => {
     let score = 0
@@ -19,9 +27,14 @@ const getExpiryScore = (reqIng , reciIng) => {
     return score
 }
 
+app.get("/", (req,res) => {
+    res.status(200)
+    res.sendFile(path.join(__dirname, '../frontend', 'example.html'))
+})
+
 app.get("/recipe", async (req, res) => {
     let userId = req.query.userId
-
+    console.log("userid", userId)
     let supabase = new Supabase()
     let ingredients = await supabase.getIngredients(userId)
 
@@ -29,7 +42,7 @@ app.get("/recipe", async (req, res) => {
         res.status(404)
         res.send("No ingredients found")
     }
-
+    console.log(ingredients)
     let api = new API(`${ingredients[0]} ${ingredients[1]}`)
     let recipes = await api.getRecipes()
     recipes = recipes["hits"]
@@ -60,6 +73,8 @@ app.get("/recipe", async (req, res) => {
             object["Recipe_steps_url"] = recipe["url"]
             object["ingredientLines"] = recipe["ingredientLines"]
             object["calories"] = recipe["calories"]
+            object["co2EmissionsClass"] = recipe["co2EmissionsClass"]
+            object["totalCO2Emissions"] = recipe["totalCO2Emissions"]   
             // object["cuisineType"] = recipe["cuisineType"]
             object["healthLabels"] = recipe["healthLabels"]
             object["mealType"] = recipe["mealType"][0]
@@ -71,7 +86,7 @@ app.get("/recipe", async (req, res) => {
 
     if(recipeObjects.length != 0){
         res.status(200)
-        res.send(recipeObjects)
+        res.send(recipeObjects.slice(0,4))
     }else{
         res.status(404)
         res.send("No recipes with your ingredients")
