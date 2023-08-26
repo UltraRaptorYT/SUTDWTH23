@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header";
+import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUtensils,
@@ -12,7 +12,7 @@ import {
   faBoxArchive,
 } from "@fortawesome/free-solid-svg-icons";
 import Webcam from "react-webcam";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import CamButton from "../components/CamButton";
 
 const videoConstraints = {

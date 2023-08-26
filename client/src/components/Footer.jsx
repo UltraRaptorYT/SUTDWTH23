@@ -24,7 +24,12 @@ function Footer({ children }) {
     <footer className="w-screen h-[75px] pt-[20px] mt-auto">
       <div className="bg-red-500 h-full border-t-4 border-black text-xl relative flex items-center">
         <div className="flex items-center justify-around h-full w-full max-w-[400px] mx-auto p-2">
-          <button className="aspect-square w-[50px]">
+          <button
+            className="aspect-square w-[50px]"
+            onClick={() => {
+              navigate("/recipe");
+            }}
+          >
             <FontAwesomeIcon icon={faUtensils} />
           </button>
           <button
@@ -36,8 +41,12 @@ function Footer({ children }) {
             <FontAwesomeIcon icon={faBoxesStacked} />
           </button>
           {children}
-          
-          <button className="aspect-square w-[50px]">
+          <button
+            className="aspect-square w-[50px]"
+            onClick={() => {
+              navigate("/store");
+            }}
+          >
             <FontAwesomeIcon icon={faStore} />
           </button>
           <button
