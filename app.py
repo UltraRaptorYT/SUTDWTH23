@@ -46,9 +46,9 @@ from langchain.schema import HumanMessage, AIMessage, ChatMessage
 
 
 
-from elevenlabs import generate as generate_voice, set_api_key, voices
+# from elevenlabs import generate as generate_voice, set_api_key, voices
 
-import whisper_timestamped as whisper
+# import whisper_timestamped as whisper
 
 # # Azure Blob
 # from azure.storage.blob import BlobServiceClient
