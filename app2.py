@@ -311,4 +311,4 @@ def read_root():
 if __name__ == '__main__':
 	# Listening on all network interfaces: 0.0.0.0
 	import uvicorn
-	uvicorn.run("app2:app", host="0.0.0.0", port=8080)
+	uvicorn.run("app:app", host="0.0.0.0", port=8080)
