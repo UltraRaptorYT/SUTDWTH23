@@ -228,11 +228,11 @@ async def expire(inputBody: dict) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody: dict) -> list:
-	return inputBody
-	# headers = {'Access-Control-Allow-Headers': 'Content-Type',
-			#    'Access-Control-Allow-Origin': '*',
-			#    'Access-Control-Allow-Methods': '*'}
-	# return JSONResponse(content = inputBody, headers = headers)
+	# return inputBody
+	headers = {'Access-Control-Allow-Headers': 'Content-Type',
+			   'Access-Control-Allow-Origin': '*',
+			   'Access-Control-Allow-Methods': '*'}
+	return JSONResponse(content = inputBody, headers = headers)
 	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	print(input)
