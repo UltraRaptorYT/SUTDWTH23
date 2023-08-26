@@ -13,5 +13,14 @@
         "1 1/2 to 2 ounces of guanciale"
     ],
     "steps":"1. wnidansodawpd\n2.dwaosnkldnawlkd\n3.finwenfnae",
-    "calories" : 679.23435266
+    "calories" : 679.23435266,
+    "cuisineType" : "Italian",
+    "healthLabels" : [
+        "Sugar-Conscious",
+        "Peanut-Free",
+        "Tree-Nut-Free",
+        "Alcohol-Free"
+    ],
+    "mealType" : "lunch/dinner",
+    "dishType" : "main course"
 }

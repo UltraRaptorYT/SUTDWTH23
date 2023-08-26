@@ -9,8 +9,8 @@ app.use(cors())
 
 
 app.get("/recipe", async (req, res) => {
-    cuisine = req.query.cuisine
-    userId = req.query.userId
+    let cuisine = req.query.cuisine
+    let userId = req.query.userId
 
     let supabase = new Supabase()
     let ingredients = await supabase.getIngredients(userId)
@@ -21,7 +21,7 @@ app.get("/recipe", async (req, res) => {
     }
 
     let api = new API(cuisine)
-    let recipes = await api.getRecipes()
+    let recipes = await api.getRecipes(cuisine)
 
     res.status(200)
     res.send(recipes)
