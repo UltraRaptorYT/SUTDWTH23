@@ -15,6 +15,8 @@ app.use(express.json())
 app.use(cors("*"))
 app.use(express.static(__dirname + "../frontend"))
 
+const PORT = process.env.PORT || 8081;
+
 const getExpiryScore = (reqIng , reciIng) => {
     let score = 0
 
@@ -93,7 +95,7 @@ app.get("/recipe", async (req, res) => {
     }
 })
 
-var server = app.listen(8081, function () {
+var server = app.listen(PORT, function () {
     var host = server.address().address
     var port = server.address().port
     
