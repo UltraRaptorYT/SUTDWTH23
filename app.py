@@ -43,7 +43,11 @@ from langchain.chains.openai_functions import (
 from langchain.schema import HumanMessage, AIMessage, ChatMessage
 # from lcserve import serving
 
-
+# Replace these values with your actual Supabase URL and API key
+SUPABASE_URL = "https://vrknhtfxcpwbydarczll.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZya25odGZ4Y3B3YnlkYXJjemxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTI4MDAyNjUsImV4cCI6MjAwODM3NjI2NX0.a_BdTMR9eN7Cm0tOjLXYAVeNECYU7ZqbHLtIxZGqmso"
+from supabase import create_client
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # from elevenlabs import generate as generate_voice, set_api_key, voices
 

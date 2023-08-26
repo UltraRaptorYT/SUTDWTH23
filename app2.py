@@ -95,7 +95,8 @@ class VideoGenerator:
         "items": {
           "type": "object",
           "properties": {
-            "Name": { "type": "string","description":"Only extract food ingrediants. ingrediants" },
+            "Name": { "type": "string","description":"Only extract food ingrediants." },
+            "base_name" : { "type": "string","description":"Only the base ingrediant name"},
             "Quantity": { "type": "integer" },
             "Days_to_expire": { "type": "integer","description":"Estimated days the ingrediant will expire in number of days E.g 30days, 14days"}
           },
@@ -104,7 +105,7 @@ class VideoGenerator:
       }
     },
     "required": ["list_of_ingrediants"]
-  }  
+  }
         recipe_json_schema= {
             "name": "Write recipe Steps",
             "description": "writing down steps based on food details",
@@ -143,6 +144,7 @@ class InputModel(BaseModel):
     input: str
 
 
+
 @app.post("/expire")
 async def expire(inputBody: InputModel) -> dict:
     input = inputBody.input
@@ -153,11 +155,21 @@ async def expire(inputBody: InputModel) -> dict:
     # Example /expire
     """
     {'list_of_ingrediants': [{'Name': 'ENR WHT BREAD 600G',
-   'Quantity': 3,
-   'Days_to_expire': 7},
-    {'Name': 'PASAR CHINA YA PEAR', 'Quantity': 3, 'Days_to_expire': 30},
-    {'Name': 'FP RED SPINACH', 'Quantity': 1, 'Days_to_expire': 7},
-    {'Name': 'Oranges', 'Quantity': 1, 'Days_to_expire': 14}]}
+    'base_name': 'Bread',
+    'Quantity': 2,
+    'Days_to_expire': 30},
+    {'Name': 'PASAR CHINA YA PEAR',
+    'base_name': 'Pear',
+    'Quantity': 3,
+    'Days_to_expire': 7},
+    {'Name': 'FP RED SPINACH',
+    'base_name': 'Spinach',
+    'Quantity': 1,
+    'Days_to_expire': 90},
+    {'Name': 'Oranges',
+    'base_name': 'Orange',
+    'Quantity': 5,
+    'Days_to_expire': 14}]}
     """
     # NER model for ingrediants
 
