@@ -10,7 +10,7 @@ app.use(cors())
 const getExpiryScore = (reqIng , reciIng) => {
     let score = 0
     for(let ing in reciIng){
-        let idx = reqIng.indexOf(ing)
+        let idx = reqIng.findIndex(element => element.includes(ing))
         score += idx + 1
     }
 
@@ -30,27 +30,27 @@ app.get("/recipe", async (req, res) => {
 
     let api = new API()
     let recipes = await api.getRecipes()
+    console.log(recipes)
     recipes = recipes["hits"]
 
     let recipeObjects = []
     let scores = []
-
+    console.log(recipes)
+    console.log(recipes.length)
     for(let i = 0; i < recipes.length; i++){
+        console.log("in loop")
         let recipe = recipes[i]["recipe"]
         let recipeIngredients = recipe["ingredients"].map((x) => x["food"])
         let score = getExpiryScore(ingredients, recipeIngredients)
+        console.log("expiry score", score)
 
         recipes[i]['score'] = score
         scores.push(score)
     }
 
-    scores.sort()
-    if(scores.length >= 4){
-        let standard = scores[4]
-    }else{
-        let standard = scores[scores.length - 1]
-    }
-    
+    scores.sort()   
+    console.log(scores) 
+    let standard = (scores.length >= 4) ? scores[4] : scores[scores.length - 1]
 
     for(let recipe of recipes){
         recipe = recipe["recipe"]
