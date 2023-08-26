@@ -49,18 +49,16 @@ function Home() {
       <Header headerHeight={headerHeight} />
       <div
         style={{ marginTop: headerHeight + "px" }}
-        className="grow flex items-center justify-center"
+        className="grow flex items-center justify-center max-h-[calc(100svh-75px-75px)]"
       >
-        <div>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-            className="w-full max-w-[400px] mx-auto aspect-[3/4] max-h-[calc(100svh-75px-75px)]"
-          />
-          <img src={imageSrc} />
-        </div>
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={videoConstraints}
+          className="w-full max-w-[400px] mx-auto aspect-[3/4] max-h-[calc(100svh-75px-75px)]"
+        />
+        <img src={imageSrc} />
       </div>
       <Footer>
         <CamButton onClick={capture} />

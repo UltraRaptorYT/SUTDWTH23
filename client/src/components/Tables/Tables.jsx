@@ -15,23 +15,17 @@ function Tables({ data }) {
           <TableHeader data={tableHeader} />
           <tbody>
             {data.map((row, idx) => {
-              return <TableRows data={Object.values(row)} key={idx} />;
+              return (
+                <TableRows
+                  data={Object.values(row).splice(1)}
+                  keyProp={idx}
+                  key={"TR" + idx}
+                />
+              );
             })}
           </tbody>
         </table>
       </div>
-
-      // <div
-      //   className={`w-full grid justify-items-center items-center justify-between`}
-      //   style={{
-      //     gridTemplateColumns: `repeat(${Object.keys(data[0]).length}, 1fr)`,
-      //   }}
-      // >
-      //   <TableHeader data={tableHeader} />
-      //   {data.map((row) => {
-      //     return <TableRows data={Object.values(row)} />;
-      //   })}
-      // </div>
     );
   } else {
     return (
