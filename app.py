@@ -56,11 +56,8 @@ import whisper_timestamped as whisper
 # import json
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-# AZURE_STORAGE_KEY_1 = os.getenv("AZURE_STORAGE_KEY_1")
-# connection_string = AZURE_STORAGE_KEY_1
-# blob_service_client = BlobServiceClient.from_connection_string(connection_string)
-# account_name = connection_string.split(';')[1].split('=')[1]
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT= os.getenv("PINECONE_ENVIRONMENT")
@@ -68,6 +65,16 @@ PINECONE_ENVIRONMENT= os.getenv("PINECONE_ENVIRONMENT")
 # ELEVENLABS
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 set_api_key(ELEVENLABS_API_KEY)
+
+# App
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 MODEL_NAME = "gpt-4-0613"
 TEMPERATURE = 0.0
@@ -183,8 +190,6 @@ class VideoGenerator:
         return results
 
     
-app = FastAPI()
-
 class InputModel(BaseModel):
     input: str
 
@@ -197,39 +202,7 @@ def generate(inputBody: InputModel) -> dict:
     output = "test"
     # videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
     # output = videoGenerator.generate(input)
-    # all_subtitles_list = []
-    # for scene in output["list_of_scenes"]:
-    #     all_subtitles_list.append(" ".join(scene["subtitles"]))
-    # all_subtitles = " ".join(all_subtitles_list)
-    # audio = generate_voice(
-    #     text=all_subtitles,
-    #     voice="Jeremy",
-    #     model="eleven_monolingual_v1"
-    # )
-    # current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    # container_name = "audio"
-    # blob_name = f"demo_{current_time}.mp3"
-
-    # blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-    # blob_client.upload_blob(audio, overwrite=True)
-
-    # blob_uri = blob_client.url
-
-    # with open(blob_name, 'wb') as f:
-    #     f.write(audio)
-    #     f.close()
-
-    # audio = whisper.load_audio(blob_name)
-    # model = whisper.load_model("base")
-
-    # result = whisper.transcribe(model, audio, language="en")
-
-    # srt_file = ""
-
-    # for i, segment in enumerate(result['segments']):
-    #     start, end = segment['start'], segment['end']
-    #     srt_file += f"{i + 1}\n00:00:{str(int(start)).replace('.', ',')} --> 00:00:{str(int(end)).replace('.', ',')}\n{segment['text'].strip()}\n"
-    
+        
     return {
         "video": output,
         # "audio": blob_uri,
