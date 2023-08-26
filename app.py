@@ -62,10 +62,6 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT= os.getenv("PINECONE_ENVIRONMENT")
 
-# ELEVENLABS
-ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-set_api_key(ELEVENLABS_API_KEY)
-
 # App
 app = FastAPI()
 app.add_middleware(
@@ -75,11 +71,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-import uvicorn
-
-port = os.getenv("APP_PORT", "8000")
-uvicorn.run(app, host="127.0.0.1", port=int(port))
 
 MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
@@ -232,8 +223,13 @@ class InputModel(BaseModel):
 
 
 
+@app.get("/")
+async def test():
+    return "test"
+
 @app.post("/generate")
 async def generate(inputBody: InputModel) -> dict:
+    print('hi')
     input = inputBody.input
     print(input)
     output = input
