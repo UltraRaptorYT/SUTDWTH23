@@ -67,6 +67,7 @@ app.add_middleware(
 	allow_credentials=True,
 	allow_methods=["*"],
 	allow_headers=["*"],
+	expose_headers=["*"]
 )
 
 MODEL_NAME = "gpt-3.5-turbo-0613"
