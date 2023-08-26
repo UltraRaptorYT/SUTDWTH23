@@ -241,6 +241,12 @@ async def expire(inputBody: dict) -> list:
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
+	return JSONResponse(content = inputBody, headers = headers)
+
+	# return inputBody
+	headers = {'Access-Control-Allow-Headers': 'Content-Type',
+			   'Access-Control-Allow-Origin': '*',
+			   'Access-Control-Allow-Methods': '*'}
 	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
