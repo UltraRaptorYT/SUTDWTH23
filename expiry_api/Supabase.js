@@ -14,6 +14,7 @@ export default class Supabase {
         let { data, error } = await this.client.from('user_food')
                                                .select(`* , food(name)`)
                                                .eq('userId', userId)
+                                               .order('expired_at', {ascending: true})
 
         //handle error
         if (error) {
@@ -28,7 +29,12 @@ export default class Supabase {
             return null
         }
 
-        return data
+        let output = []
+        for(let entry of data){
+            output.push(entry["food"]["name"].toLowerCase())
+        }
+
+        return output
     }
 }
 
