@@ -304,7 +304,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.post("/RecipeSteps")
 def read_root():
     return {"Hello": "World"}
 
