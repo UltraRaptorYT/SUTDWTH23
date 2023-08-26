@@ -206,10 +206,11 @@ async def root() -> dict:
 @app.post("/expire")
 async def expire(inputBody: dict) -> dict:
 	input = inputBody.get('input')
-	print(input)
+	headers = {'Access-Control-Allow-Headers': 'Content-Type',
+			   'Access-Control-Allow-Origin': '*',
+			   'Access-Control-Allow-Methods': '*'}
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
 	output = videoGenerator.expire(input)
-	print('output: ', output)
 	# Example /expire
 	"""
 	{'list_of_ingrediants': [{'Name': 'ENR WHT BREAD 600G',
@@ -232,7 +233,7 @@ async def expire(inputBody: dict) -> dict:
 	# NER model for ingrediants
 
 	# Honestly this can change
-	return output
+	return JSONResponse(content = output, headers = headers)
 
 @app.post("/RecipeSteps")
 async def expire(inputBody: dict) -> list:
@@ -240,10 +241,8 @@ async def expire(inputBody: dict) -> list:
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
-	return JSONResponse(content = inputBody, headers = headers)
 	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
-	print(input)
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
 	# Example input
 	"""
@@ -342,7 +341,7 @@ async def expire(inputBody: dict) -> list:
 	"""
 	Example Final output, same as input with extra "steps" key
 	"""
-	return input
+	return JSONResponse(content = output, headers = headers)
 
 
 # from fastapi import FastAPI
