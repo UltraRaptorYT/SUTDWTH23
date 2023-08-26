@@ -85,10 +85,6 @@ class VideoGenerator:
     
     def __init__(self,llm):
         
-        pinecone.init(
-            api_key=PINECONE_API_KEY,  # find at app.pinecone.io
-            environment=PINECONE_ENVIRONMENT,  # next to api key in console
-        )
 
         index_name = "singlife"
 

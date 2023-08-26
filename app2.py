@@ -143,7 +143,9 @@ class VideoGenerator:
 class InputModel(BaseModel):
     input: str
 
-
+@app.get("/")
+async def root() -> dict:
+    return {"message": "Hello World"}
 
 @app.post("/expire")
 async def expire(inputBody: InputModel) -> dict:
