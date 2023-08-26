@@ -51,6 +51,7 @@ import requests
 # import json
 
 from fastapi import FastAPI
+from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
@@ -66,19 +67,25 @@ async def catch_exceptions_middleware(request: Request, call_next):
         # you probably want some kind of logging here
         return Response("Internal server error", status_code=500)
 
-app.middleware('http')(catch_exceptions_middleware)
 
 origins = [
 	'https://node-recipe-api.onrender.com/',
 ]
 
-app.add_middleware(
-	CORSMiddleware,
-	allow_origins=origins,
-	allow_credentials=True,
-	allow_headers=["*"],
-	expose_headers=["*"]
-)
+middleware = [
+	Middleware(
+        CORSMiddleware,
+		allow_origins=origins,
+		allow_credentials=True,
+		allow_headers=["*"],
+		expose_headers=["*"]
+	)
+]
+app.middleware('http')(catch_exceptions_middleware)
+
+# app.add_middleware(
+# 	CORSMiddleware,
+# )
 
 MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
