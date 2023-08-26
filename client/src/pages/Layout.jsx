@@ -4,11 +4,13 @@ import Footer from "../components/Footer.jsx";
 import CamButton from "../components/CamButton.jsx";
 
 const Layout = () => {
-  const headerHeight = 70;
+  const headerHeight = 75;
   return (
     <main className="flex flex-col h-[100svh]">
-      <Header className={`h-[${headerHeight}px]`} />
-      <div className={`p-2`} style={{ marginTop: headerHeight + "px" }}>
+      <Header
+        headerHeight={headerHeight}
+      />
+      <div className={`p-2 grow`} style={{ marginTop: headerHeight + "px" }}>
         <Outlet />
       </div>
       <Footer>

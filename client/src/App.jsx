@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Error from "./pages/404";
 import Layout from "./pages/Layout";
-import Login from "./components/Login";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Inventory from "./pages/Inventory";
@@ -23,6 +23,7 @@ function App() {
       </Route>
 
       <Route path="/login" element={<Login />} />
+
       {/* 404 ERROR */}
       <Route path="/*" element={<Error />} />
     </Routes>
