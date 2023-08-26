@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 from collections import deque
 from typing import Dict, List, Optional, Any
+import logging
 
 from langchain import LLMChain, OpenAI, PromptTemplate
 from langchain.embeddings import OpenAIEmbeddings
@@ -186,7 +187,7 @@ async def expire(inputBody: dict) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody) -> list:
-	print(inputBody)
+	logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	print(input)
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
