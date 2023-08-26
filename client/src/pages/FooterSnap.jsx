@@ -11,14 +11,6 @@ import {
 function Footer() {
   // New navigator object
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let userid = localStorage.getItem("userid");
-    if (!userid) {
-      navigate("/login");
-    }
-  }, []);
-
   return (
     <footer className="w-screen h-[75px] pt-[20px] mt-auto">
       <div className="bg-red-500 h-full border-t-4 border-black text-xl relative flex items-center">

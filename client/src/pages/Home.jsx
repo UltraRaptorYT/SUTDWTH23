@@ -19,6 +19,14 @@ const videoConstraints = {
 
 function Home() {
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    let userid = localStorage.getItem("userid");
+    if (!userid) {
+      navigate("/login");
+    }
+  }, []);
+
   const [imageSrc, setImageSrc] = useState();
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
