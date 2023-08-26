@@ -4,6 +4,7 @@ from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
 import openai
 import numpy as np
 import os
+import uvicorn
 from dotenv import load_dotenv
 import os
 from collections import deque
@@ -267,3 +268,6 @@ async def expire(inputBody: InputModel) -> list:
     """
     return input
 
+
+if __name__ == "__main__":
+	uvicorn.run('app:app', host = '0.0.0.0', port = 8080)
