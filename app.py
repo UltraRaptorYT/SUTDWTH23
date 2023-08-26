@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 from collections import deque
 from typing import Dict, List, Optional, Any
+import uvicorn
 
 from langchain import LLMChain, OpenAI, PromptTemplate
 from langchain.embeddings import OpenAIEmbeddings
@@ -255,3 +256,6 @@ async def expire(inputBody: InputModel) -> dict:
         # "srt": srt_file
     }
 
+
+if __name__ == "__main__":
+	uvicorn.run('app:app', host = '0.0.0.0', port = 7860)
