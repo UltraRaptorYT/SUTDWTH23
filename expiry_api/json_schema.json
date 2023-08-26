@@ -1,4 +1,4 @@
-{
+json_schema= {
     "name": "estimate expiration date",
     "description": "Given ingrediants and their Quantity, estimate the expiration date of each ingrediant",
     "type": "object",
@@ -10,7 +10,7 @@
           "properties": {
             "Name": { "type": "string" },
             "Quantity": { "type": "integer" },
-            "Expiration": { "type": "string", "format": "date" }
+            "Expiration_in": { "type": "string","description":"Estimated time the ingrediant will expire E.g 6weeks,2months,5days"}
           },
           "required": ["Name", "Quantity", "Expiration"]
         }

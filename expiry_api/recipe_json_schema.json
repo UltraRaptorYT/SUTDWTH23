@@ -1,0 +1,21 @@
+{
+    "name": "Write recipe Steps",
+    "description": "writing down steps based on food details",
+    "type": "object",
+    "properties": {
+      "list_of_ingrediants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "index": { "type": "integer" },
+            "label": { "type": "string","description":"Name of the dish based on details given. Do not change from details" },
+            "steps": { "type": "string","description":"Steps: 1.\n2.\n3.\n4\n5.\n (and so on till the end of the recipe)"}
+          },
+          "required": ["index", "label", "steps"]
+        }
+      }
+    },
+    "required": ["list_of_ingrediants"]
+  }
+  
