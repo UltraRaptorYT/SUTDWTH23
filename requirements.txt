@@ -1,5 +1,6 @@
 langchain
 uvicorn
+openai
 fastapi
 pinecone-client==2.2.1
 uvicorn[standard]
