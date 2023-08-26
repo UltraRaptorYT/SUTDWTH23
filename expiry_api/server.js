@@ -9,7 +9,9 @@ app.use(cors())
 
 const getExpiryScore = (reqIng , reciIng) => {
     let score = 0
-    for(let ing in reciIng){
+
+    for(let i = 0; i < reciIng.length; i++){
+        let ing = reciIng[i]
         let idx = reqIng.findIndex(element => element.includes(ing))
         score += idx + 1
     }
@@ -28,35 +30,31 @@ app.get("/recipe", async (req, res) => {
         res.send("No ingredients found")
     }
 
-    let api = new API()
+    let api = new API(`${ingredients[0]} ${ingredients[1]}`)
     let recipes = await api.getRecipes()
-    console.log(recipes)
     recipes = recipes["hits"]
 
     let recipeObjects = []
     let scores = []
-    console.log(recipes)
-    console.log(recipes.length)
+
     for(let i = 0; i < recipes.length; i++){
-        console.log("in loop")
         let recipe = recipes[i]["recipe"]
         let recipeIngredients = recipe["ingredients"].map((x) => x["food"])
         let score = getExpiryScore(ingredients, recipeIngredients)
-        console.log("expiry score", score)
 
         recipes[i]['score'] = score
         scores.push(score)
     }
 
-    scores.sort()   
-    console.log(scores) 
+    scores.sort().reverse()  
     let standard = (scores.length >= 4) ? scores[4] : scores[scores.length - 1]
 
-    for(let recipe of recipes){
+    for(let i = 0; i < recipes.length; i ++){
+        let recipe = recipes[i]
+        let score = recipe["score"]
         recipe = recipe["recipe"]
-
-        if(recipe["score"] >= standard){            
-            object = {}
+        if(score >= standard){         
+            let object = {}
             object["label"] = recipe["label"]
             object["image_object"] = recipe["images"]["SMALL"]
             object["Recipe_steps_url"] = recipe["url"]
@@ -84,5 +82,5 @@ var server = app.listen(8081, function () {
     var host = "localhost"
     var port = server.address().port
     
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Api server listening at http://%s:%s", host, port)
  })

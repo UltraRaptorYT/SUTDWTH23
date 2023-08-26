@@ -14,7 +14,7 @@ export default class Supabase {
         let { data, error } = await this.client.from('user_food')
                                                .select(`* , food(name)`)
                                                .eq('userId', userId)
-                                               .order('expired_at', {ascending: true})
+                                               .order('expired_at', {ascending: false})
 
         //handle error
         if (error) {
@@ -23,7 +23,7 @@ export default class Supabase {
         }
 
         // await this.client.auth.signOut()
-        console.log(data)
+        // console.log(data)
         //return data
         if(data.length == 0){
             return null
