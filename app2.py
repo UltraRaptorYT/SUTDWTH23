@@ -61,29 +61,50 @@ from starlette.responses import Response
 # App
 app = FastAPI()
 
+ALLOWED_ORIGINS = ['*'],
+ALLOWED_METHODS = '*',
+ALLOWED_HEADERS = '*'
 
-async def catch_exceptions_middleware(request: Request, call_next):
-	try:
-		return await call_next(request)
-	except Exception:
-		# you probably want some kind of logging here
-		return Response("Internal server error", status_code=500)
+def check_routes(request: Request):
+	# Using FastAPI instance
+	url_list = [
+		route.path
+		for route in request.app.routes
+		if "rest_of_path" not in route.path
+	]
+	if request.url.path not in url_list:
+		return JSONResponse({"detail": "Not Found"})
 
+# Handle CORS preflight requests
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(request: Request, rest_of_path: str) -> Response:
+	response = check_routes(request)
+	if response:
+		return response
 
-origins = [
-	'https://node-recipe-api.onrender.com',
-]
-
-middleware = [
-	Middleware(
-		CORSMiddleware,
-		allow_origins=origins,
-		allow_credentials=True,
-		allow_headers=["*"],
-		expose_headers=["*"]
+	response = Response(
+		content="OK",
+		media_type="text/plain",
+		headers={
+			"Access-Control-Allow-Origin": ALLOWED_ORIGINS,
+			"Access-Control-Allow-Methods": ALLOWED_METHODS,
+			"Access-Control-Allow-Headers": ALLOWED_HEADERS,
+		},
 	)
-]
-app.middleware('http')(catch_exceptions_middleware)
+	return response
+
+# Add CORS headers
+@app.middleware("http")
+async def add_cors_header(request: Request, call_next):
+	response = check_routes(request)
+	if response:
+		return response
+
+	response = await call_next(request)
+	response.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
+	response.headers["Access-Control-Allow-Methods"] = ALLOWED_METHODS
+	response.headers["Access-Control-Allow-Headers"] = ALLOWED_HEADERS
+	return response
 
 # app.add_middleware(
 # 	CORSMiddleware,
@@ -207,10 +228,11 @@ async def expire(inputBody: dict) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody: dict) -> list:
-	headers = {'Access-Control-Allow-Headers': 'Content-Type',
-			   'Access-Control-Allow-Origin': '*',
-			   'Access-Control-Allow-Methods': '*'}
-	return JSONResponse(content = inputBody, headers = headers)
+	return inputBody
+	# headers = {'Access-Control-Allow-Headers': 'Content-Type',
+			#    'Access-Control-Allow-Origin': '*',
+			#    'Access-Control-Allow-Methods': '*'}
+	# return JSONResponse(content = inputBody, headers = headers)
 	# logging.info('input:', inputBody)
 	input = inputBody.get('input')
 	print(input)
