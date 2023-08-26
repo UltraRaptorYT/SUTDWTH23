@@ -58,14 +58,13 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-	"*"
+	'https://node-recipe-api.onrender.com/',
 ]
 
 app.add_middleware(
 	CORSMiddleware,
 	allow_origins=origins,
 	allow_credentials=True,
-	allow_methods=["*"],
 	allow_headers=["*"],
 	expose_headers=["*"]
 )
