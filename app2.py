@@ -61,50 +61,50 @@ from starlette.responses import Response
 # App
 app = FastAPI()
 
-ALLOWED_ORIGINS = ['*'],
-ALLOWED_METHODS = '*',
-ALLOWED_HEADERS = '*'
+# ALLOWED_ORIGINS = ['*'],
+# ALLOWED_METHODS = '*',
+# ALLOWED_HEADERS = '*'
 
-def check_routes(request: Request):
-	# Using FastAPI instance
-	url_list = [
-		route.path
-		for route in request.app.routes
-		if "rest_of_path" not in route.path
-	]
-	if request.url.path not in url_list:
-		return JSONResponse({"detail": "Not Found"})
+# def check_routes(request: Request):
+# 	# Using FastAPI instance
+# 	url_list = [
+# 		route.path
+# 		for route in request.app.routes
+# 		if "rest_of_path" not in route.path
+# 	]
+# 	if request.url.path not in url_list:
+# 		return JSONResponse({"detail": "Not Found"})
 
 # Handle CORS preflight requests
-@app.options("/{rest_of_path:path}")
-async def preflight_handler(request: Request, rest_of_path: str) -> Response:
-	response = check_routes(request)
-	if response:
-		return response
+# @app.options("/{rest_of_path:path}")
+# async def preflight_handler(request: Request, rest_of_path: str) -> Response:
+# 	response = check_routes(request)
+# 	if response:
+# 		return response
 
-	response = Response(
-		content="OK",
-		media_type="text/plain",
-		headers={
-			"Access-Control-Allow-Origin": ALLOWED_ORIGINS,
-			"Access-Control-Allow-Methods": ALLOWED_METHODS,
-			"Access-Control-Allow-Headers": ALLOWED_HEADERS,
-		},
-	)
-	return response
+# 	response = Response(
+# 		content="OK",
+# 		media_type="text/plain",
+# 		headers={
+# 			"Access-Control-Allow-Origin": ALLOWED_ORIGINS,
+# 			"Access-Control-Allow-Methods": ALLOWED_METHODS,
+# 			"Access-Control-Allow-Headers": ALLOWED_HEADERS,
+# 		},
+# 	)
+# 	return response
 
 # Add CORS headers
-@app.middleware("http")
-async def add_cors_header(request: Request, call_next):
-	response = check_routes(request)
-	if response:
-		return response
+# @app.middleware("http")
+# async def add_cors_header(request: Request, call_next):
+# 	response = check_routes(request)
+# 	if response:
+# 		return response
 
-	response = await call_next(request)
-	response.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
-	response.headers["Access-Control-Allow-Methods"] = ALLOWED_METHODS
-	response.headers["Access-Control-Allow-Headers"] = ALLOWED_HEADERS
-	return response
+# 	response = await call_next(request)
+# 	response.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGINS
+# 	response.headers["Access-Control-Allow-Methods"] = ALLOWED_METHODS
+# 	response.headers["Access-Control-Allow-Headers"] = ALLOWED_HEADERS
+# 	return response
 
 # app.add_middleware(
 # 	CORSMiddleware,
