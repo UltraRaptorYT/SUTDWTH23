@@ -20,18 +20,19 @@ if (error) {
   // alert("Error");
 }
 
-const formattedData = data.map((item) => {
-  return {
-    id: item.food.id,
-    name: item.food.name,
-    quantity: item.quantity,
-    expires_in: item.expires_in,
-    created_at: item.created_at,
-  };
-});
+if (data) {
+  const formattedData = data.map((item) => {
+    return {
+      id: item.food.id,
+      name: item.food.name,
+      quantity: item.quantity,
+      expires_in: item.expires_in,
+      created_at: item.created_at,
+    };
+  });
 
-console.log(formattedData);
-
+  console.log(formattedData);
+}
 function QuantityInput({ quantity, keyProp }) {
   const [currentQuantity, setCurrentQuantity] = useState(quantity ?? 0);
   const [minVal, setMinVal] = useState(1);

@@ -7,11 +7,14 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 const BASE_URL2 = "https://docker-test-shec.onrender.com";
 
 function Recipe() {
+  const navigate = useNavigate();
   const [recipeList, setRecipeList] = useState([]);
   useEffect(() => {
     async function getRecipe() {
@@ -48,15 +51,30 @@ function Recipe() {
     //   });
   }, []);
   return (
-    <div className="w-full mx-auto flex flex-col max-w-[400px]">
+    <div className="w-full mx-auto flex flex-col max-w-[400px] gap-5">
       {recipeList.map((e, idx) => {
         console.log(e);
         return (
           <button
             onClick={() => {
+              navigate(`/recipe/${e.id}`);
             }}
+            className="flex gap-5"
           >
-            {e.id}
+            <img
+              src={e.data.image_object.url}
+              className="aspect-square w-[75px] min-w-[75px]"
+            />
+            <div className="flex flex-col justify-start items-start w-full">
+              <h1 className="font-bold text-lg">{e.name}</h1>
+              <h2 className="text-base w-full text-start">
+                Cuisine: <span className="font-bold">{e.data.cuisineType}</span>
+              </h2>
+              <h2 className="text-base w-full text-start">
+                Calories:{" "}
+                <span className="font-bold">{e.data.calories.toFixed(2)}</span>
+              </h2>
+            </div>
           </button>
         );
       })}
