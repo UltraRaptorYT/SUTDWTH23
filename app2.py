@@ -193,7 +193,7 @@ class VideoGenerator:
 		return results
 	
 	def RecipeSteps(self,recipe_details):
-		results = self.recipe_step_chain(recipe_details = recipe_details)
+		results = self.recipe_step_chain.run(recipe_details = recipe_details)
 		return results
 
 
