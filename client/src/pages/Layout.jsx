@@ -7,10 +7,14 @@ const Layout = () => {
   const headerHeight = 75;
   return (
     <main className="flex flex-col h-[100svh]">
-      <Header
-        headerHeight={headerHeight}
-      />
-      <div className={`p-4 grow`} style={{ marginTop: headerHeight + "px" }}>
+      <Header headerHeight={headerHeight} />
+      <div
+        className={`p-4 grow`}
+        style={{
+          marginTop: headerHeight + "px",
+          marginBottom: headerHeight + "px",
+        }}
+      >
         <Outlet />
       </div>
       <Footer>

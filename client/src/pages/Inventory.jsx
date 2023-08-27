@@ -72,8 +72,22 @@ function Inventory() {
           .post(`${BASE_URL2}/RecipeSteps`, {
             input: JSON.stringify(res),
           })
-          .then((res) => {
+          .then(async (res) => {
+            let ingredientList = res.data;
             console.log(res.data);
+            for await (let ingredient of ingredientList) {
+              var { data, error } = await supabase.from("recipe").insert({
+                name: ingredient["label"],
+                userId: userid,
+                data: ingredient,
+              });
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(data);
+              }
+            }
+            navigate("/recipe");
           })
           .catch((err) => {
             console.log(err);

@@ -12,11 +12,18 @@ const videoConstraints = {
   facingMode: "user",
 };
 
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_KEY
+);
+
 function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let userid = localStorage.getItem("userid");
+    var userid = localStorage.getItem("userid");
     if (!userid) {
       navigate("/login");
     }
@@ -54,8 +61,47 @@ function Home() {
               input: JSON.stringify(res.data),
             },
           })
-            .then((res) => {
-              console.log(res);
+            .then(async (res) => {
+              console.log(res.data);
+              if ("list_of_ingrediants" in res.data) {
+                for await (let ingredient of res.data["list_of_ingrediants"]) {
+                  console.log(ingredient);
+                  var { data, error } = await supabase
+                    .from("food")
+                    .select("*")
+                    .eq("name", ingredient["base_name"]);
+                  console.log(data);
+                  if (data.length == 0) {
+                    var { data, error } = await supabase
+                      .from("food")
+                      .insert({
+                        name: ingredient["base_name"],
+                      })
+                      .select("*");
+                    var { data, error } = await supabase
+                      .from("user_food")
+                      .insert({
+                        userId: localStorage.getItem("userid"),
+                        foodId: data[0].id,
+                        quantity: ingredient["Quantity"],
+                        expires_in: ingredient["Days_to_expire"],
+                      })
+                      .select("*");
+                  } else {
+                    var { data, error } = await supabase
+                      .from("user_food")
+                      .insert({
+                        userId: localStorage.getItem("userid"),
+                        foodId: data[0].id,
+                        quantity: ingredient["Quantity"],
+                        expires_in: ingredient["Days_to_expire"],
+                      })
+                      .select("*");
+                  }
+                  alert("Scan Completed!");
+                  navigate("/inventory");
+                }
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -68,18 +114,6 @@ function Home() {
   }
 
   const headerHeight = 75;
-
-  // useEffect(() => {
-  //   // Make a GET request using Axios
-  //   axios
-  //     .get("http://213.108.196.111:1715/")
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }, []); // The empty dependency array ensures this effect runs only once after the initial render
 
   return (
     <main className="flex flex-col h-[100svh]">

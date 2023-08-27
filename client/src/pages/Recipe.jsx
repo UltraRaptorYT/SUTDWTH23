@@ -51,7 +51,7 @@ function Recipe() {
     //   });
   }, []);
   return (
-    <div className="w-full mx-auto flex flex-col max-w-[400px] gap-5">
+    <div className="w-full mx-auto flex flex-col max-w-[400px] gap-5 pb-[75px]">
       {recipeList.map((e, idx) => {
         console.log(e);
         return (
@@ -60,6 +60,7 @@ function Recipe() {
               navigate(`/recipe/${e.id}`);
             }}
             className="flex gap-5"
+            key={"recipe" + e.id}
           >
             <img
               src={e.data.image_object.url}
