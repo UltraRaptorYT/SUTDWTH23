@@ -13,9 +13,9 @@ export default class Supabase {
     async getIngredients(userId) {
         this.client.auth.persistSession = false
         let { data, error } = await this.client.from('user_food')
-                                               .select(`* , food(name)`)
+                                               .select(`* , food(base_name)`)
                                                .eq('userId', userId)
-                                               .order('expired_at', {ascending: false})
+                                               .order('expires_in', {ascending: false})
 
         //handle error
         if (error) {
