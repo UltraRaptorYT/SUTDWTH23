@@ -2,14 +2,20 @@
 <head>
 </head>
 <body>
-    <button onclick="getRecipe()">Click to test!</button>
+    <button onclick="getRecipe(2)">Click to test getRecipe!</button>
+    <button onclick="getExpire()">Click to test expire!</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script>
-        const BASE_URL = `https://node-recipe-api.onrender.com/recipe?userId=${2}`
+        const BASE_URL = `https://node-recipe-api.onrender.com/recipe?userId=`
         const BASE_URL2 = "https://docker-test-shec.onrender.com"
 
-        function getRecipe(){
-            axios.get(`${BASE_URL}`)
+        function getRecipe(userId){
+            console.log(userId)
+            `
+                Status code 200: If recipe exists with given user id returns list of recipes with steps
+                Status code 404: If no recipe can be found with given ingredients
+            `
+            axios.get(`${BASE_URL}${userId}`)
             .then((res) => {
                 res = res.data
                 console.log(res)
@@ -23,9 +29,23 @@
                 }).catch((err) => {
                     console.log(err)
                 })
-                }).catch((err) => {
-                    console.log(err)
-                })
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+
+        function getExpire(){
+            axios({
+                method : 'post',
+                url : `${BASE_URL2}/expire`,
+                headers : {},
+                data : {input: "{\"apple\": 1,\"computer laptop\": 1,\"person\": 1,\"computer\": 1,\"hand\": 1}"}
+            }).then((res) => {
+                res = res.data
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+            })
         }
     </script>
 </body>
