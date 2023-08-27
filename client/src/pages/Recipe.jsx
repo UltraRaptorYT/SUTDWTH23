@@ -69,7 +69,25 @@ function Recipe() {
             <div className="flex flex-col justify-start items-start w-full">
               <h1 className="font-bold text-lg">{e.name}</h1>
               <h2 className="text-base w-full text-start">
-                Cuisine: <span className="font-bold">{e.data.cuisineType}</span>
+                Carbon:{" "}
+                <span
+                  className={
+                    "font-bold " +
+                    (e.data.co2EmissionsClass == "A"
+                      ? "text-[hsl(122,91%,30%)]"
+                      : e.data.co2EmissionsClass == "B"
+                      ? "text-[hsl(82,78%,40%)]"
+                      : e.data.co2EmissionsClass == "C"
+                      ? "text-[hsl(63,72%,40%)]"
+                      : e.data.co2EmissionsClass == "D"
+                      ? "text-[#f7cf55]"
+                      : e.data.co2EmissionsClass == "E"
+                      ? "text-[#ffc361]"
+                      : "text-[#ffa26d]")
+                  }
+                >
+                  {e.data.co2EmissionsClass}, {e.data.totalCO2Emissions.toFixed(2)}
+                </span>
               </h2>
               <h2 className="text-base w-full text-start">
                 Calories:{" "}
