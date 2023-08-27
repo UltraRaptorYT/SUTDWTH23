@@ -238,10 +238,10 @@ async def expire(inputBody: dict) -> dict:
 @app.post("/RecipeSteps")
 async def expire(inputBody: dict) -> list:
 	# return inputBody
-	headers = {'Access-Control-Allow-Headers': 'Content-Type',
-			   'Access-Control-Allow-Origin': '*',
-			   'Access-Control-Allow-Methods': '*'}
-	return JSONResponse(content = inputBody, headers = headers)
+	# headers = {'Access-Control-Allow-Headers': 'Content-Type',
+	# 		   'Access-Control-Allow-Origin': '*',
+	# 		   'Access-Control-Allow-Methods': '*'}
+	# return JSONResponse(content = inputBody, headers = headers)
 
 	# return inputBody
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
@@ -347,8 +347,7 @@ async def expire(inputBody: dict) -> list:
 	"""
 	Example Final output, same as input with extra "steps" key
 	"""
-	return JSONResponse(content = output, headers = headers)
-
+	return JSONResponse(content = input, headers = headers)
 
 # from fastapi import FastAPI
 # from fastapi.middleware.cors import CORSMiddleware
