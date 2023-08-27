@@ -230,6 +230,7 @@ async def expire(inputBody: InputModel) -> dict:
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
+	print("TYPE:", type(input), input)
 	output = videoGenerator.expire(input)
 	# Example /expire
 	"""
