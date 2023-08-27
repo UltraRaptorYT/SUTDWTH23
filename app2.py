@@ -208,7 +208,7 @@ class VideoGenerator:
       
     
     def expire(self,ingredients):
-        results = self.agent_expire.run(ingredients = ingredients)
+        results = self.agent_expire.run(ingredients)
         return results
     
     def RecipeSteps(self,recipe_details):
