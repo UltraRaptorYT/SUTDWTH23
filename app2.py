@@ -122,6 +122,9 @@ app.add_middleware(
 MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
 
+MODEL_NAME = "gpt-3.5-turbo-0613"
+TEMPERATURE = 0.0
+
 class VideoGenerator:
 	
 	# task_list: deque = Field(default_factory=deque)
@@ -130,12 +133,9 @@ class VideoGenerator:
 	def __init__(self,llm):
 
 		expire_prompt = PromptTemplate(
-			template="""You are an expiratity date estimator, given this list of inputs of food ingredients,1.Identify the food ingrediants and 2.extimate when the food ingredients will expire in No.days E.g 30days 7days 90days.Then convert it to number of days.
+			template="""You are an expiratity date estimator and food ingrediant identifier, given this list of inputs of food ingredients,1.Identify the food ingrediants E.g Bread, Apple, Milk, Remove non-food items E.g bottle,package and 2.extimate when the food ingredients will expire in No.days E.g 30days 7days 90days.Then convert it to number of days.
 
-			Some Examples of ingrediants to estimate their expiration date:
-
-			my inventory of ingrediants:\n{ingredients}\n
-			Task:1.Remove all non-food ingrediants 2.Use only these names above to estimate expiration date of each ingrediant.""",
+			Some Examples of ingrediants to estimate their expiration date:\n\nmy inventory of ingrediants:\n{ingredients}\n\nTask:1.Remove all non-food ingrediants E.g Bottle,package  2.Use only these names above to estimate expiration date of each ingrediant.""",
 			input_variables= ["ingredients"]
 		)
 		recipe_prompt = PromptTemplate(
@@ -153,7 +153,7 @@ class VideoGenerator:
 		  "type": "object",
 		  "properties": {
 			"Name": { "type": "string","description":"Only extract food ingrediants." },
-			"base_name" : { "type": "string","description":"Only the base ingrediant name"},
+			"base_name" : { "type": "string","description":"Only the base food ingrediant name"},
 			"Quantity": { "type": "integer" },
 			"Days_to_expire": { "type": "integer","description":"Estimated days the ingrediant will expire in number of days E.g 30days, 14days"}
 		  },
@@ -183,20 +183,20 @@ class VideoGenerator:
 			},
 			"required": ["list_of_ingrediants"]
 		}
-		expire_chain = create_structured_output_chain(json_schema, llm, expire_prompt, verbose=True)
+		self.expire_chain = create_structured_output_chain(json_schema, llm, expire_prompt, verbose=True)
 
 		tools = [
 			Tool(
 				name = "extract_ingredients_estimate_expiry_date",
-				func=expire_chain.run,
-				description="identify/extract only food ingredients and for only those food ingrediants estimate expiry date in number of days",
+				func=self.expire_chain.run,
+				description="identify/extract only food ingredients and for only those food ingrediants estimate expiry date in number of days. Output JSON",
 				
 			),
 		]
 
-		prefix = """You are an AI who performs one task based on the following objective:1. Remove non-food ingrediants,extract only food ingrediants 2. Estimate the expiry date of each food ingrediant in number of days E.g 30days 7days 90days"""
-		suffix = """Question: {task}
-		{agent_scratchpad}"""
+		prefix = """You are an AI who performs one task based on the following objective:1. Remove non-food ingrediants E.g bottle,package,extract only food ingrediants E.g Bread, Apple, Milk 2. Estimate the expiry date of each food ingrediant in number of days E.g 30days 7days 90days.3. Parse it back as JSON format"""
+		suffix = """Question: {task} Return JSON format using outputparser
+		{agent_scratchpad} if Observation starts with: 'list_of_ingrediants:\nreuturn at json'"""
 		prompt = ZeroShotAgent.create_prompt(
 			tools,
 			prefix=prefix,
@@ -208,7 +208,7 @@ class VideoGenerator:
 	  
 	
 	def expire(self,ingredients):
-		results = self.agent_expire.run(ingredients)
+		results = self.expire_chain.run(ingredients=ingredients)
 		return results
 	
 	def RecipeSteps(self,recipe_details):
