@@ -11,10 +11,10 @@
 
         function getRecipe(userId){
             console.log(userId)
-            `
-                Status code 200: If recipe exists with given user id returns list of recipes with steps
-                Status code 404: If no recipe can be found with given ingredients
-            `
+            // `
+            //     Status code 200: If recipe exists with given user id returns list of recipes with steps
+            //     Status code 404: If no recipe can be found with given ingredients
+            // `
             axios.get(`${BASE_URL}${userId}`)
             .then((res) => {
                 res = res.data

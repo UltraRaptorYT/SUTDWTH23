@@ -31,7 +31,9 @@ export default class Supabase {
         }
 
         let output = []
-        for(let entry of data){
+        for(let i = 0; i < data.length; i ++){
+            let entry = data[i]
+            console.log(entry)
             output.push(entry["food"]["name"].toLowerCase())
         }
 
