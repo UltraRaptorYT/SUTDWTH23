@@ -62,11 +62,11 @@ from starlette.responses import Response
 app = FastAPI()
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["GET", "POST"],
-    allow_headers=["Authorization", "Content-Type"],
-    max_age=86400,
+	CORSMiddleware,
+	allow_origins=["*"],
+	allow_methods=["GET", "POST"],
+	allow_headers=["Authorization", "Content-Type"],
+	max_age=86400,
 )
 
 # ALLOWED_ORIGINS = ['*'],
@@ -237,18 +237,11 @@ async def expire(inputBody: dict) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody: dict) -> list:
-	# return inputBody
-	# headers = {'Access-Control-Allow-Headers': 'Content-Type',
-	# 		   'Access-Control-Allow-Origin': '*',
-	# 		   'Access-Control-Allow-Methods': '*'}
-	# return JSONResponse(content = inputBody, headers = headers)
-
-	# return inputBody
+	input = inputBody.get('input')
+	print(input)
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
-	# logging.info('input:', inputBody)
-	input = inputBody.get('input')
 	videoGenerator = VideoGenerator(llm=ChatOpenAI(model_name=MODEL_NAME, temperature=TEMPERATURE))
 	# Example input
 	"""
@@ -347,7 +340,8 @@ async def expire(inputBody: dict) -> list:
 	"""
 	Example Final output, same as input with extra "steps" key
 	"""
-	return JSONResponse(content = input, headers = headers)
+	return input
+	# return JSONResponse(content = input, headers = headers)
 
 # from fastapi import FastAPI
 # from fastapi.middleware.cors import CORSMiddleware
