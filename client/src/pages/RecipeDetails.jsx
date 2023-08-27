@@ -30,8 +30,13 @@ function RecipeDetails() {
     }
     getRecipe();
   }, []);
+
+  function makeFood() {
+    
+  }
+
   return (
-    <div className="w-full max-w-[400px] mx-auto grow flex flex-col gap-5 pb-[75px]" >
+    <div className="w-full max-w-[400px] mx-auto grow flex flex-col gap-5 pb-[75px]">
       <img
         src={imgUrl}
         className="aspect-square w-1/2 object-contain mx-auto"
@@ -46,6 +51,7 @@ function RecipeDetails() {
             return <p key={i}>{e}</p>;
           })}
         </p>
+        <button className="m-auto flex w-fit justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Make Food</button>
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ import CamButton from "../components/CamButton";
 const videoConstraints = {
   width: 720,
   height: 960,
-  facingMode: "user",
 };
 
 import { createClient } from "@supabase/supabase-js";
@@ -76,6 +75,7 @@ function Home() {
                       .from("food")
                       .insert({
                         name: ingredient["base_name"],
+                        base_name: ingredient["base_name"],
                       })
                       .select("*");
                     var { data, error } = await supabase
