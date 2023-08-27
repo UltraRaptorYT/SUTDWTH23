@@ -225,7 +225,7 @@ async def root() -> dict:
 
 @app.post("/expire")
 async def expire(inputBody: InputModel) -> dict:
-	input = inputBody.input
+	input = inputBody
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
