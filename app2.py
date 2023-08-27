@@ -257,7 +257,7 @@ async def expire(inputBody: InputModel) -> dict:
 
 @app.post("/RecipeSteps")
 async def expire(inputBody: InputModel) -> list:
-	input = inputBody.input
+	input = json.loads(inputBody.input)
 	headers = {'Access-Control-Allow-Headers': 'Content-Type',
 			   'Access-Control-Allow-Origin': '*',
 			   'Access-Control-Allow-Methods': '*'}
