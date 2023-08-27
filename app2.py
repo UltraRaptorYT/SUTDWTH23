@@ -123,78 +123,97 @@ MODEL_NAME = "gpt-3.5-turbo-0613"
 TEMPERATURE = 0.0
 
 class VideoGenerator:
-	
-	# task_list: deque = Field(default_factory=deque)
-	video_chain2: Chain = Field(default_factory=Chain)
-	
-	def __init__(self,llm):
+    
+    # task_list: deque = Field(default_factory=deque)
+    video_chain2: Chain = Field(default_factory=Chain)
+    
+    def __init__(self,llm):
 
-		expire_prompt = PromptTemplate(
-			template="""You are an expiratity date estimator, given this list of inputs of food ingredients,1.Identify the food ingrediants and 2.extimate when the food ingredients will expire in No.days E.g 30days 7days 90days.Then convert it to number of days.
+        expire_prompt = PromptTemplate(
+            template="""You are an expiratity date estimator, given this list of inputs of food ingredients,1.Identify the food ingrediants and 2.extimate when the food ingredients will expire in No.days E.g 30days 7days 90days.Then convert it to number of days.
 
-			Some Examples of ingrediants to estimate their expiration date:
+            Some Examples of ingrediants to estimate their expiration date:
 
-			my inventory of ingrediants:\n{ingredients}\n
-			Use only these names above to get expiration date of each ingrediant.""",
-			input_variables= ["ingredients"]
-		)
-		recipe_prompt = PromptTemplate(
-	template="""You are chef writing down steps based on food details. You have to write steps for every dishes based on the each details given. Each dish name is "label".The dishes are: {recipe_details}\nGenerate steps for each dish notated as one json object in the list""",
-	input_variables= ["recipe_details"]
+            my inventory of ingrediants:\n{ingredients}\n
+            Use only these names above to get expiration date of each ingrediant.""",
+            input_variables= ["ingredients"]
+        )
+        recipe_prompt = PromptTemplate(
+    template="""You are chef writing down steps based on food details. You have to write steps for every dishes based on the each details given. Each dish name is "label".The dishes are: {recipe_details}\nGenerate steps for each dish notated as one json object in the list""",
+    input_variables= ["recipe_details"]
 )
-		json_schema= {
-	"name": "estimate expiration date",
-	"description": "Given ingrediants and their Quantity, estimate the expiration date of each ingrediant",
-	"type": "object",
-	"properties": {
-	  "list_of_ingrediants": {
-		"type": "array",
-		"items": {
-		  "type": "object",
-		  "properties": {
-			"Name": { "type": "string","description":"Only extract food ingrediants." },
-			"base_name" : { "type": "string","description":"Only the base ingrediant name"},
-			"Quantity": { "type": "integer" },
-			"Days_to_expire": { "type": "integer","description":"Estimated days the ingrediant will expire in number of days E.g 30days, 14days"}
-		  },
-		  "required": ["Name", "Quantity", "Expiration"]
-		}
-	  }
-	},
-	"required": ["list_of_ingrediants"]
+        json_schema= {
+    "name": "estimate expiration date",
+    "description": "Given ingrediants and their Quantity, estimate the expiration date of each ingrediant",
+    "type": "object",
+    "properties": {
+      "list_of_ingrediants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": { "type": "string","description":"Only extract food ingrediants." },
+            "base_name" : { "type": "string","description":"Only the base ingrediant name"},
+            "Quantity": { "type": "integer" },
+            "Days_to_expire": { "type": "integer","description":"Estimated days the ingrediant will expire in number of days E.g 30days, 14days"}
+          },
+          "required": ["Name", "Quantity", "Expiration"]
+        }
+      }
+    },
+    "required": ["list_of_ingrediants"]
   }
-		recipe_json_schema= {
-			"name": "Write recipe Steps",
-			"description": "writing down steps based on food details",
-			"type": "object",
-			"properties": {
-			"list_of_ingrediants": {
-				"type": "array",
-				"items": {
-				"type": "object",
-				"properties": {
-					"index": { "type": "integer" },
-					"label": { "type": "string","description":"Name of the dish based on details given. Do not change from details" },
-					"steps": { "type": "string","description":"Steps: 1.\n2.\n3.\n4\n5.\n (and so on till the end of the recipe)"}
-				},
-				"required": ["index", "label", "steps"]
-				}
-			}
-			},
-			"required": ["list_of_ingrediants"]
-		}
-		  
-		self.expire_chain = create_structured_output_chain(json_schema, llm, expire_prompt, verbose=True)
-		self.recipe_step_chain = create_structured_output_chain(recipe_json_schema, llm, recipe_prompt, verbose=True)
-	  
-	
-	def expire(self,ingredients):
-		results = self.expire_chain.run(ingredients = ingredients)
-		return results
-	
-	def RecipeSteps(self,recipe_details):
-		results = self.recipe_step_chain.run(recipe_details = recipe_details)
-		return results
+        recipe_json_schema= {
+            "name": "Write recipe Steps",
+            "description": "writing down steps based on food details",
+            "type": "object",
+            "properties": {
+            "list_of_ingrediants": {
+                "type": "array",
+                "items": {
+                "type": "object",
+                "properties": {
+                    "index": { "type": "integer" },
+                    "label": { "type": "string","description":"Name of the dish based on details given. Do not change from details" },
+                    "steps": { "type": "string","description":"Steps: 1.\n2.\n3.\n4\n5.\n (and so on till the end of the recipe)"}
+                },
+                "required": ["index", "label", "steps"]
+                }
+            }
+            },
+            "required": ["list_of_ingrediants"]
+        }
+        expire_chain = create_structured_output_chain(json_schema, llm, expire_prompt, verbose=True)
+
+        tools = [
+            Tool(
+                name = "extract_ingredients_estimate_expiry_date",
+                func=expire_chain.run,
+                description="identify/extract only food ingredients and for only those food ingrediants estimate expiry date in number of days",
+                
+            ),
+        ]
+
+        prefix = """You are an AI who performs one task based on the following objective:1. Identify food ingrediants 2. Estimate the expiry date of each food ingrediant in number of days E.g 30days 7days 90days"""
+        suffix = """Question: {task}
+        {agent_scratchpad}"""
+        prompt = ZeroShotAgent.create_prompt(
+            tools,
+            prefix=prefix,
+            suffix=suffix,
+            input_variables=["task", "agent_scratchpad"],
+        )
+        self.agent_expire = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+        self.recipe_step_chain = create_structured_output_chain(recipe_json_schema, llm, recipe_prompt, verbose=True)
+      
+    
+    def expire(self,ingredients):
+        results = self.agent_expire.run(ingredients = ingredients)
+        return results
+    
+    def RecipeSteps(self,recipe_details):
+        results = self.recipe_step_chain(recipe_details = recipe_details)
+        return results
 
 
 class InputModel(BaseModel):
@@ -333,9 +352,10 @@ async def expire(inputBody: InputModel) -> list:
 	print('output for Recipe Generation: ', output)
 	# Add "steps" key to each recipe in input list of dict
 	for i, recipe in enumerate(input):
-			print(f'added steps to recipe: {recipe["label"]}')
-			# Add new "steps" key to output
-			recipe["steps"] = output["list_of_ingrediants"][i]["steps"]
+		print("RECIPE:", recipe)
+		print(f'added steps to recipe: {recipe["label"]}')
+		# Add new "steps" key to output
+		recipe["steps"] = output["list_of_ingrediants"][i]["steps"]
 
 	"""
 	Example Final output, same as input with extra "steps" key
