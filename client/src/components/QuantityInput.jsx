@@ -33,7 +33,7 @@ const formattedData = data.map((item) => {
 console.log(formattedData);
 
 function QuantityInput({ quantity, keyProp }) {
-  const [currentQuantity, setCurrentQuantity] = useState(quantity);
+  const [currentQuantity, setCurrentQuantity] = useState(quantity ?? 0);
   const [minVal, setMinVal] = useState(1);
   const [maxVal, setMaxVal] = useState(1100);
 

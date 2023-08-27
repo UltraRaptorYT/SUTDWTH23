@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Inventory from "./pages/Inventory";
 import Store from "./pages/Store";
 import Recipe from "./pages/Recipe";
+import RecipeDetails from "./pages/RecipeDetails";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/store" element={<Store />} />
         <Route path="/recipe" element={<Recipe />} />
+        <Route path="/recipe/:recipeID" element={<RecipeDetails />} />
       </Route>
 
       <Route path="/login" element={<Login />} />

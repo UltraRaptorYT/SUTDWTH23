@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import QuantityInput from "../QuantityInput";
+import { useAtom } from "jotai";
+import { ingredientsAtom } from "../../pages/Inventory";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function TableRows({ data, keyProp }) {
+  const [ingredients, setIngredients] = useAtom(ingredientsAtom);
   const month = [
     "Jan",
     "Feb",
@@ -20,6 +23,51 @@ function TableRows({ data, keyProp }) {
     "Nov",
     "Dec",
   ];
+
+  function checkInput(e, name) {
+    console.log(name);
+    setIngredients([...ingredients, name]);
+  }
+
+  function imgName(name, keyProp) {
+    return (
+      <div className="flex gap-2 items-center justify-center">
+        <input
+          type="checkbox"
+          id={`idk${keyProp}`}
+          name="ingredients"
+          onChange={(e) => {
+            checkInput(e, name);
+          }}
+        />
+        <label htmlFor={`idk${keyProp}`}>{name}</label>
+      </div>
+    );
+  }
+
+  function colorDays(days) {
+    let color;
+    if (days < 5) {
+      color = "rgb(239 68 68)";
+    } else if (days < 10) {
+      color = "rgb(234 179 8)";
+    } else {
+      color = "rgb(34 197 94)";
+    }
+    return (
+      <span
+        style={{
+          background: color,
+          width: "50%",
+          display: "block",
+          margin: "auto",
+        }}
+      >
+        {days}
+      </span>
+    );
+  }
+
   return (
     <tr>
       {data.map((e, idx) => {
@@ -53,37 +101,4 @@ function TableRows({ data, keyProp }) {
     </tr>
   );
 }
-
-function imgName(name, keyProp) {
-  return (
-    <div className="flex gap-2 items-center justify-center">
-      <input type="checkbox" id={`idk${keyProp}`} name="ingredients"/>
-      <label for={`idk${keyProp}`}>{name}</label>
-    </div>
-  );
-}
-
-function colorDays(days) {
-  let color;
-  if (days < 5) {
-    color = "rgb(239 68 68)";
-  } else if (days < 10) {
-    color = "rgb(234 179 8)";
-  } else {
-    color = "rgb(34 197 94)";
-  }
-  return (
-    <span
-      style={{
-        background: color,
-        width: "50%",
-        display: "block",
-        margin: "auto",
-      }}
-    >
-      {days}
-    </span>
-  );
-}
-
 export default TableRows;
