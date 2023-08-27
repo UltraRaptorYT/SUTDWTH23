@@ -194,7 +194,7 @@ class VideoGenerator:
 			),
 		]
 
-		prefix = """You are an AI who performs one task based on the following objective:1. Identify food ingrediants 2. Estimate the expiry date of each food ingrediant in number of days E.g 30days 7days 90days"""
+		prefix = """You are an AI who performs one task based on the following objective:1. Remove non-food ingrediants,extract only food ingrediants 2. Estimate the expiry date of each food ingrediant in number of days E.g 30days 7days 90days"""
 		suffix = """Question: {task}
 		{agent_scratchpad}"""
 		prompt = ZeroShotAgent.create_prompt(
