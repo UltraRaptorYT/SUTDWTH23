@@ -61,13 +61,7 @@ function Profile() {
           Email: <span className="font-bold">{email}</span>
         </p>
         <p className="text-lg">
-          SustainaBucks:{" "}
-          <span
-            className="font-bold"
-            style={{ color: `hsl(${bucks}, 100%, 50%)` }}
-          >
-            {bucks}
-          </span>
+          SustainaBucks: <span className="font-bold">{bucks}</span>
         </p>
       </div>
       <button
