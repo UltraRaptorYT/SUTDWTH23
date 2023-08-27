@@ -78,7 +78,7 @@ app.get("/recipe", async (req, res) => {
             object["co2EmissionsClass"] = recipe["co2EmissionsClass"]
             object["totalCO2Emissions"] = recipe["totalCO2Emissions"]   
             // object["cuisineType"] = recipe["cuisineType"]
-            object["healthLabels"] = recipe["healthLabels"]
+            // object["healthLabels"] = recipe["healthLabels"]
             object["mealType"] = recipe["mealType"][0]
             object["dishType"] = recipe["dishType"][0]
 
@@ -88,7 +88,7 @@ app.get("/recipe", async (req, res) => {
 
     if(recipeObjects.length != 0){
         res.status(200)
-        res.send(recipeObjects.slice(0,4))
+        res.send(recipeObjects.slice(0,3))
     }else{
         res.status(404)
         res.send("No recipes with your ingredients")

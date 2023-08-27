@@ -22,7 +22,7 @@
             .then((res) => {
                 res = res.data
                 console.log(res)
-                axios.post(`${BASE_URL2}/RecipeSteps`,{input : res.toString()})
+                axios.post(`${BASE_URL2}/RecipeSteps`,{input : JSON.stringify(res)})
                 .then((res) => {
                     console.log(res)
                 }).catch((err) => {
