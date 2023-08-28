@@ -59,7 +59,7 @@ function Recipe() {
             onClick={() => {
               navigate(`/recipe/${e.id}`);
             }}
-            className="flex gap-5"
+            className="flex gap-5 items-center"
             key={"recipe" + e.id}
           >
             <img
